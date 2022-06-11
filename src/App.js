@@ -14,11 +14,15 @@ function App() {
     <div className="container">
       <Switch>
         {/*  */}
+        {/* <Route path="/" component={Login}>
+          
+        </Route> */}
         <Route
           path="/listusers"
           component={ListUsers}
           auth={state.isAuthenticated}
         />
+
         <Route path="/login" component={Login} auth={state.isAuthenticated} />
         {localStorage.length === 0 ? (
           <Route path="/" component={Login} />
