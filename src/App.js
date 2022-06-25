@@ -7,6 +7,7 @@ import Singin from "./components/SingIn";
 import EditPicture from "./components/EditPicture";
 import Privateroute from "./components/PrivateRoute";
 import { useSelector } from "react-redux";
+import UpdateImageProfile from "./components/UpdateImageProfile";
 
 function App() {
   const state = useSelector((state) => state.reducer);
@@ -35,12 +36,7 @@ function App() {
           component={UserProfile}
           auth={state.isAuthenticated}
         />
-        <Route
-          exact
-          path="/editpic"
-          auth={state.isAuthenticated}
-          component={EditPicture}
-        />
+        <Route path="/editpic" component={UpdateImageProfile} />
         <Route exact path="/signIn" component={Singin} />
       </Switch>
     </div>

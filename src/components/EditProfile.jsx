@@ -23,14 +23,16 @@ const Editprofile = (props) => {
         setshow(false);
     }
     const getusers=async()=>{
-       const response=await fetch ("/users",
-    {
-       method:'GET',
-       headers:{
-          'Content-Type':'application/json',
-          "x-xsrf-token":localStorage.getItem("TK"),
-
-       }})
+       const response = await fetch(
+         "https://cryptic-coast-57283.herokuapp.com/users",
+         {
+           method: "GET",
+           headers: {
+             "Content-Type": "application/json",
+             "x-xsrf-token": localStorage.getItem("TK"),
+           },
+         }
+       );
 
     const data=await response.json();
     setusers(data);
@@ -38,14 +40,13 @@ const Editprofile = (props) => {
       
     }
     const getuserconnected=async()=>{
-    const res=await fetch ("/user",
-    {
-       method:'GET',
-       headers:{
-          'Content-Type':'application/json',
-          "x-xsrf-token":localStorage.getItem("TK"),
-
-       }});
+    const res = await fetch("https://cryptic-coast-57283.herokuapp.com/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-xsrf-token": localStorage.getItem("TK"),
+      },
+    });
     const user=await res.json();
      setuser(user);
       }
@@ -55,18 +56,27 @@ const Editprofile = (props) => {
     }, []);
     const update=async(e)=>{
           e.preventDefault();
-         const response= await fetch("/updateuser",{
-            method:'PUT',
-            headers:{
-              'Content-Type':'application/json',
-              "x-xsrf-token":localStorage.getItem("TK"),
-            },
-            body:JSON.stringify({
-          iduse,username,email,phone
-        }),
-          })
+         const response = await fetch(
+           "https://cryptic-coast-57283.herokuapp.com/updateuser",
+           {
+             method: "PUT",
+             headers: {
+               "Content-Type": "application/json",
+               "x-xsrf-token": localStorage.getItem("TK"),
+             },
+             body: JSON.stringify({
+               iduse,
+               username,
+               email,
+               phone,
+             }),
+           }
+         );
        const data=response.json();
-        setusers(data);
+       const iduser=data._id;
+       const newusers=[...users];
+       newusers[iduser]=data;
+      setusers(newusers);
             
  document.getElementById("alertmessage").style.visibility="visible"
     }
@@ -75,25 +85,112 @@ const Editprofile = (props) => {
     return (
         <div>
           {show===true?
-            <div className=" shadow  "  style={{backgroundColor:"#BFBFBF"}}>
+            <div className=" shadow  "  style={{backgroundColor:"#BFBFBF",paddingLeft:"20px"}}>
               <h4 className='text-center m-4' style={{fontFamily: 'Lobster Two, cursive',color:"black"}}>Edit Informations</h4>
                 {users.filter(e=>e._id===iduse).map(user=>{
-                      return(  
-                      <>
-                      <form  onSubmit={(e)=>update(e)}>
-                        <div className='d-flex' style={{marginTop:"15px",marginLeft:"10px"}}><label style={{fontFamily: 'Lobster Two, cursive',color:"black"}}>Username </label><input  id="username"type="text" defaultValue={user.username} onChange={(e)=>setusername(e.target.value)}className='form-control text-center' style={{width:"60%",marginLeft:"10px"}}/></div>
-                        <div className='d-flex' style={{marginTop:"15px",marginLeft:"10px"}}><label style={{fontFamily: 'Lobster Two, cursive',color:"black"}}>Email </label><input type="text" id="email" defaultValue={user.email} onChange={(e)=>setemail(e.target.value)}  className='form-control text-center' style={{width:"60%",marginLeft:"40px"}}/></div>
-                        <div className='d-flex' style={{marginTop:"15px",marginLeft:"10px"}}><label style={{fontFamily: 'Lobster Two, cursive',color:"black"}}>Phone  </label><input  type="text"  id="phone" defaultValue={user.phone} onChange={(e)=>setphone(e.target.value)} className='form-control text-center' style={{width:"60%",marginLeft:"34px"}}/></div>
-                        <div className="d-flex" style={{marginLeft:"75px",marginTop:"10px"}}>
-                          <button className="btn  m-2" type="submit"  style={{backgroundColor:"#FF64FF",fontFamily: 'Lobster Two, cursive'}}>Save Changes</button>
-                          <button className="btn  m-2"  style={{backgroundColor:"#FF64FF",fontFamily: 'Lobster Two, cursive'}} onClick={()=>reset()}>Cancel</button>
-                        </div>
-                        <div class="alert alert-secondary text-success  "  id="alertmessage" style={{visibility:"hidden"}} role="alert">
-                        Successfully  Saved <i class="fa-solid fa-circle-check"></i>
-                        </div>
-                        </form>
-                       </>
-                               )
+                      return (
+                        <>
+                          <form onSubmit={(e) => update(e)}>
+                            <div
+                              className="d-flex"
+                              style={{ marginTop: "15px", marginLeft: "10px" }}
+                            >
+                              <label
+                                style={{
+                                  fontFamily: "Lobster Two, cursive",
+                                  color: "black",
+                                }}
+                              >
+                                Username{" "}
+                              </label>
+                              <input
+                                id="username"
+                                type="text"
+                                defaultValue={user.username}
+                                onChange={(e) => setusername(e.target.value)}
+                                className="form-control text-center"
+                                style={{ width: "60%", marginLeft: "10px" }}
+                              />
+                            </div>
+                            <div
+                              className="d-flex"
+                              style={{ marginTop: "15px", marginLeft: "10px" }}
+                            >
+                              <label
+                                style={{
+                                  fontFamily: "Lobster Two, cursive",
+                                  color: "black",
+                                }}
+                              >
+                                Email{" "}
+                              </label>
+                              <input
+                                type="text"
+                                id="email"
+                                defaultValue={user.email}
+                                onChange={(e) => setemail(e.target.value)}
+                                className="form-control text-center"
+                                style={{ width: "60%", marginLeft: "40px" }}
+                              />
+                            </div>
+                            <div
+                              className="d-flex"
+                              style={{ marginTop: "15px", marginLeft: "10px" }}
+                            >
+                              <label
+                                style={{
+                                  fontFamily: "Lobster Two, cursive",
+                                  color: "black",
+                                }}
+                              >
+                                Phone{" "}
+                              </label>
+                              <input
+                                type="text"
+                                id="phone"
+                                defaultValue={user.phone}
+                                onChange={(e) => setphone(e.target.value)}
+                                className="form-control text-center"
+                                style={{ width: "60%", marginLeft: "34px" }}
+                              />
+                            </div>
+                            <div
+                              className="d-flex"
+                              style={{ marginLeft: "75px", marginTop: "10px" }}
+                            >
+                              <button
+                                className="btn  m-2"
+                                type="submit"
+                                style={{
+                                  backgroundColor: "#FE92AA",
+                                  fontFamily: "Lobster Two, cursive",
+                                }}
+                              >
+                                Save Changes
+                              </button>
+                              <button
+                                className="btn  m-2"
+                                style={{
+                                  backgroundColor: "#FE92AA",
+                                  fontFamily: "Lobster Two, cursive",
+                                }}
+                                onClick={() => reset()}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                            <div
+                              class="alert alert-secondary text-success  "
+                              id="alertmessage"
+                              style={{ visibility: "hidden" }}
+                              role="alert"
+                            >
+                              Successfully Saved{" "}
+                              <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                          </form>
+                        </>
+                      );
                   })
                   }
             </div>

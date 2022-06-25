@@ -20,13 +20,16 @@ const Editpass = (props) => {
     document.getElementById("errorpassword").style.visibility = "hidden";
   };
   const getusers = async () => {
-    const response = await fetch("/users", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/users",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+      }
+    );
 
     const data = await response.json();
     setusers(data);
@@ -34,18 +37,21 @@ const Editpass = (props) => {
 
   const update = async (e) => {
     e.preventDefault();
-    const response = await fetch("/updatepassword", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        userid,
-        password,
-        lastpassword,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/updatepassword",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          userid,
+          password,
+          lastpassword,
+        }),
+      }
+    );
     const data = await response.json();
 
     console.log("response" + JSON.stringify(data));
@@ -134,7 +140,7 @@ const Editpass = (props) => {
                         type="submit"
                         className="btn  m-2"
                         style={{
-                          backgroundColor: "#FF64FF",
+                          backgroundColor: "#FE92AA",
                           fontFamily: "Lobster Two, cursive",
                         }}
                       >
@@ -143,7 +149,7 @@ const Editpass = (props) => {
                       <button
                         className="btn  m-2"
                         style={{
-                          backgroundColor: "#FF64FF",
+                          backgroundColor: "#FE92AA",
                           fontFamily: "Lobster Two, cursive",
                         }}
                         onClick={() => reset()}

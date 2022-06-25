@@ -14,18 +14,22 @@ const EditPicture = (props) => {
   const inputFile = useRef(null);
   // functions
   const changephoto = async (url) => {
-    const res = await fetch("/editpic", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        url,
-        iduse,
-      }),
-    });
-    setshow(false);
+    const res = await fetch(
+      "/editpic",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          url,
+          iduse,
+        }),
+      }
+    );
+    setshow(false)
+  
   };
 
   const openfileDialog = () => {

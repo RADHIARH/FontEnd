@@ -44,23 +44,30 @@ const Listusers = () => {
   const [groups, setgroups] = useState([]);
   const [messagesgroups, setmessagesgroups] = useState([]);
   const [usermessages, setusermessages] = useState([]);
-  //
+  const [newmessage, setnewmessage] = useState(true);
 
+  //
+  const cancelgroup = () => {
+    setgroup(false);
+  };
   // send message in a group
   const addmessagetoGroup = async (e, idgroup) => {
     e.preventDefault();
-    const response = await fetch("/addmsgroup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        idgroup,
-        message,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/addmsgroup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          idgroup,
+          message,
+        }),
+      }
+    );
     const data = await response.json();
     setmessagesgroups([...messagesgroups, data]);
     setmessage("");
@@ -69,18 +76,21 @@ const Listusers = () => {
   // send message
   const sendmessage = async (e, id_receiver) => {
     e.preventDefault();
-    const res = await fetch("/addmessage", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        id_receiver,
-        message,
-      }),
-    });
+    const res = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/addmessage",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          id_receiver,
+          message,
+        }),
+      }
+    );
     const data = await res.json();
     setmessage("");
     setusermessages([...usermessages, data]);
@@ -88,13 +98,16 @@ const Listusers = () => {
   // // deletemessage
   const deletems = async (e, idmessage) => {
     e.preventDefault();
-    const res = await fetch(`/deletemessage/${idmessage}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-    });
+    const res = await fetch(
+      `https://cryptic-coast-57283.herokuapp.com/deletemessage/${idmessage}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+      }
+    );
     const data = await res.json();
     setusermessages(usermessages.filter((element) => element._id !== data));
   };
@@ -115,34 +128,39 @@ const Listusers = () => {
     const t = users.filter((element) => element._id === idus);
     setuser(t);
     setshow(true);
-    console.log("iduser1" + iduse);
-    console.log("iduser2" + idus);
-    const response = await fetch("/setviewed", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        idus,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/setviewed",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          idus,
+        }),
+      }
+    );
+    setnewmessage(false);
   };
 
   // send invitation
   const sendinvitation = async (idfriend) => {
-    const response = await fetch("/sentinvit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        idfriend,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/sentinvit",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          idfriend,
+        }),
+      }
+    );
     const data = await response.json();
     const id = data._id;
     // user
@@ -165,16 +183,19 @@ const Listusers = () => {
   };
   // add new group
   const addgrp = async () => {
-    const response = await fetch("/addgroup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        groupname,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/addgroup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          groupname,
+        }),
+      }
+    );
     const data = await response.json();
     setgroupname("");
     setgroups([...groups, data]);
@@ -191,17 +212,20 @@ const Listusers = () => {
   };
   // join group
   const joingroup = async (idgroup) => {
-    const response = await fetch("/joingroup", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        idgroup,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/joingroup",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          idgroup,
+        }),
+      }
+    );
 
     const data = await response.json();
     const id = data._id;
@@ -212,17 +236,20 @@ const Listusers = () => {
   };
   // leave group
   const Leavegrp = async (idgroup) => {
-    const response = await fetch("/leavegroup", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-xsrf-token": localStorage.getItem("TK"),
-      },
-      body: JSON.stringify({
-        iduse,
-        idgroup,
-      }),
-    });
+    const response = await fetch(
+      "https://cryptic-coast-57283.herokuapp.com/leavegroup",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-xsrf-token": localStorage.getItem("TK"),
+        },
+        body: JSON.stringify({
+          iduse,
+          idgroup,
+        }),
+      }
+    );
 
     const data = await response.json();
     const id = data._id;
@@ -276,13 +303,16 @@ const Listusers = () => {
     // get  groups messages
 
     const getgroupsmessage = async () => {
-      const response = await fetch("https://cryptic-coast-57283.herokuapp.com/groupsmsg", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-xsrf-token": localStorage.getItem("TK"),
-        },
-      });
+      const response = await fetch(
+        "https://cryptic-coast-57283.herokuapp.com/groupsmsg",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "x-xsrf-token": localStorage.getItem("TK"),
+          },
+        }
+      );
       if (ismounted) {
         const data1 = await response.clone().json();
         setmessagesgroups(data1);
@@ -317,11 +347,14 @@ const Listusers = () => {
   }, []);
 
   return (
-    <div>
-      <div className="row d-flex justify-content-center">
+    <div style={{position:"relative"}}>
+      <div
+        className="row d-flex justify-content-center"
+        style={{ position: "fixed",zIndex:"10",width:"1300px" }}
+      >
         <Header />
       </div>
-      <div className="d-flex col-md-12 ">
+      <div className="d-flex col-md-12 " style={{ position:"absolute",zIndex:"5",marginTop:"100px" }}>
         {/* list users  part 1 */}
         <div
           className="col-md-2  mt-4 listusers bg-white  shadow"
@@ -376,7 +409,8 @@ const Listusers = () => {
                                         : null
                                 }        */}
 
-                      {usermessages.reduce(
+                      {newmessage &&
+                      usermessages.reduce(
                         (acc, current) =>
                           current.id_sender === ele._id &&
                           current.id_receiver === iduse &&
@@ -401,7 +435,7 @@ const Listusers = () => {
                                 : acc,
                             0
                           )}
-                          newmessages
+                          new message(s)
                         </p>
                       ) : null}
 
@@ -425,7 +459,7 @@ const Listusers = () => {
           className="col-md-8 m-4"
           style={{
             position: "relative",
-            backgroundColor: "#FF64FF",
+            backgroundColor: "#FE92AA",
             border: "3px solid grey",
           }}
         >
@@ -446,14 +480,16 @@ const Listusers = () => {
                     <div className="card-body text-center">
                       {element.email}
                       {element.friendsList.find((e) => e.idfriend === iduse) ? (
-                        <h6>
+                        <h6 className="fw-bold">
                           {" "}
                           Friend <TiTick />
                         </h6>
                       ) : element.invitations.find(
                           (e) => e.idfriend === iduse && e.accepted === false
                         ) ? (
-                        <label className="form-label">Invitation sent</label>
+                        <label className="form-label fw-bold">
+                          Invitation sent
+                        </label>
                       ) : (
                         <input
                           type="button"
@@ -461,8 +497,8 @@ const Listusers = () => {
                           onClick={() => sendinvitation(element._id)}
                           defaultValue=" Add to Friends List"
                           style={{
-                            width: "150px",
-                            fontSize: "13px",
+                            width: "200px",
+                            fontSize: "14px",
                             marginTop: "10px",
                           }}
                         />
@@ -484,7 +520,7 @@ const Listusers = () => {
                         el.id_sender === iduse ? (
                         <div className="d-flex">
                           <div
-                            className="row m-3 shadow "
+                            className="row m-1 shadow "
                             onMouseOver={() =>
                               (document.getElementById(
                                 el._id
@@ -520,8 +556,8 @@ const Listusers = () => {
                               />
                             </div>
                           </div>
-                          <div className="row mt-3">
-                            <p className="p-2">
+                          <div className="row mt">
+                            <p className="p-3">
                               {el.vue === false ? (
                                 <TiTickOutline style={{ fontSize: "20px" }} />
                               ) : (
@@ -638,7 +674,7 @@ const Listusers = () => {
                                       )
                                       .map((user) => {
                                         return (
-                                          <div className="col-md-3">
+                                          <div className="col-md-4">
                                             <div>
                                               <img
                                                 alt=""
@@ -776,24 +812,32 @@ const Listusers = () => {
                   );
                 })
               ) : (
-                <h4
-                  className="text-center m-4 "
-                  style={{ fontFamily: "Lobster Two, cursive", color: "black" }}
+                <h2
+                  className="text-center  "
+                  style={{
+                    fontFamily: "Lobster Two, cursive",
+                    color: "black",
+                    marginTop: "240px",
+                  }}
                 >
                   Sorry <CgSmileSad />
                   .....you must join the group to show discussion{" "}
-                </h4>
+                </h2>
               )}
             </div>
           ) : null}
         </div>
         {/* groups list */}
         <div
-          className="col-s-4 mt-4 shadow bg-white"
-          style={{ border: "3px solid black", position: "relative" }}
+          className=" mt-4 col-md-2 shadow bg-white"
+          style={{
+            border: "3px solid black",
+            position: "relative",
+            height: "800px",
+          }}
         >
           <h3
-            className="text-center m-1"
+            className="text-center m-2"
             style={{ fontFamily: "Lobster Two, cursive", color: "black" }}
           >
             Groups
@@ -878,33 +922,47 @@ const Listusers = () => {
             className="d-flex "
             style={{ position: "absolute", bottom: "5px", left: "20px" }}
           >
-            <button className="btn btn-outline-dark border-0">
+            <button className="btn btn-outline-dark fw-bold border-0">
               {" "}
               <AiOutlinePlusCircle
                 onClick={() => addgroupname()}
-                style={{ width: "40px", height: "50px", color: "green" }}
+                style={{ width: "30px", height: "40px", color: "green" }}
               />
-              Add new group
+              Add a new group
             </button>
           </div>
           {group === true ? (
-            <div className="d-flex m-2">
+            <div className=" m-2">
               <input
-                className=""
+                className="mb-2 p-3"
                 type="text"
                 onChange={(e) => setgroupname(e.target.value)}
                 value={groupname}
                 id="groupname"
-                style={{ width: "70%", border: "2px solid black" }}
+                style={{
+                  width: "180px",
+                  height: "50px",
+                  border: "2px solid black",
+                  borderRadius: "10px",
+                }}
                 placeholder="add a group name "
               />
-              <button
-                className="btn btn-outline-dark"
-                onClick={() => addgrp()}
-                style={{ marginLeft: "10px", border: "2px solid black" }}
-              >
-                Add
-              </button>
+              <div className="d-flex">
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => addgrp()}
+                  style={{ marginLeft: "10px", border: "2px solid black" }}
+                >
+                  Add
+                </button>
+                <button
+                  className="btn btn-outline-dark"
+                  onClick={() => cancelgroup()}
+                  style={{ marginLeft: "10px", border: "2px solid black" }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           ) : null}
         </div>
